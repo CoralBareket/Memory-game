@@ -1,0 +1,29 @@
+.grid-container {
+    display: grid;
+    grid-gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+    cursor: pointer;
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    user-select: none;
+}
+
+.card.hidden {
+    background-color: #343a40;
+    color: #343a40;
+}
+
+.card.matched {
+    background-color: #28a745;
+    color: #fff;
+}
