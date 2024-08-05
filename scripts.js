@@ -1,7 +1,6 @@
 $(document).ready(function() {
     let playerName, numPairs, cards, firstCard, secondCard, matchedPairs, startTime, timerInterval;
-    const emojis = ['😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣', '😊', '😇', '🙂', '🙃', '😉', '😌', '😍', '🥰', '😘', '😗', '😙', '😚', '😋', '😛', '😝', '😜', '🤪', '🤨', '🧐', '🤓', '😎', '🥳']; // Add more emojis if needed
-
+    const emojis = ['😀', '😄', '😁', '😆', '😅', '😂', '🤣', '😊', '😇', '🙂', '🙃', '😉', '😌', '😍', '🥰', '😘', '😗', '😙', '😚', '😋', '😛', '😝', '😜', '🤪', '🤨', '🧐', '🤓', '😎', '🥳', '🎉', '🚀', '🐱', '🍕', '🏀', '🌈', '🎵']; 
     $('#gameForm').submit(function(event) {
         event.preventDefault();
         playerName = $('#playerName').val();
@@ -10,8 +9,27 @@ $(document).ready(function() {
             alert(`Maximum number of pairs is ${emojis.length}`);
             return;
         }
+        numPairs = adjustPairsToFormRectangle(numPairs); // Adjust the number of pairs
         startGame();
     });
+
+    function adjustPairsToFormRectangle(numPairs) {
+        let totalCards = numPairs * 2;
+        let columns = Math.ceil(Math.sqrt(totalCards));
+        let rows = Math.ceil(totalCards / columns);
+        
+        while (columns * rows > totalCards) {
+            if (columns * (rows - 1) >= totalCards) {
+                rows--;
+            } else if ((columns - 1) * rows >= totalCards) {
+                columns--;
+            } else {
+                break;
+            }
+        }
+        
+        return Math.floor((columns * rows) / 2);
+    }
 
     function startGame() {
         $('#gameForm').hide();
@@ -33,11 +51,12 @@ $(document).ready(function() {
     }
 
     function generateCards() {
+        let selectedEmojis = shuffle(emojis.slice()).slice(0, numPairs); // Shuffle the emojis array and pick the first numPairs elements
         cards = [];
-        for (let i = 0; i < numPairs; i++) {
-            cards.push(emojis[i]);
-            cards.push(emojis[i]);
-        }
+        selectedEmojis.forEach(emoji => {
+            cards.push(emoji);
+            cards.push(emoji);
+        });
         shuffle(cards);
         console.log(`Generated Cards: ${cards}`);
     }
@@ -47,7 +66,7 @@ $(document).ready(function() {
             const j = Math.floor(Math.random() * (i + 1));
             [array[i], array[j]] = [array[j], array[i]];
         }
-        console.log(`Shuffled Cards: ${array}`);
+        return array;
     }
 
     function displayCards() {
