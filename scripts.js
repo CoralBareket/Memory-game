@@ -1,10 +1,15 @@
 $(document).ready(function() {
     let playerName, numPairs, cards, firstCard, secondCard, matchedPairs, startTime, timerInterval;
+    const emojis = ['😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣', '😊', '😇', '🙂', '🙃', '😉', '😌', '😍', '🥰', '😘', '😗', '😙', '😚', '😋', '😛', '😝', '😜', '🤪', '🤨', '🧐', '🤓', '😎', '🥳']; // Add more emojis if needed
 
     $('#gameForm').submit(function(event) {
         event.preventDefault();
         playerName = $('#playerName').val();
-        numPairs = $('#numPairs').val();
+        numPairs = parseInt($('#numPairs').val());
+        if (numPairs > emojis.length) {
+            alert(`Maximum number of pairs is ${emojis.length}`);
+            return;
+        }
         startGame();
     });
 
@@ -15,8 +20,8 @@ $(document).ready(function() {
         startTime = new Date();
         matchedPairs = 0;
         $('#timeElapsed').text(0);
-        clearInterval(timerInterval);
-        timerInterval = setInterval(updateTimer, 1000);
+        clearInterval(timerInterval); // Ensure any previous timer is cleared
+        timerInterval = setInterval(updateTimer, 1000); // Start a new timer
         generateCards();
         displayCards();
     }
@@ -29,11 +34,12 @@ $(document).ready(function() {
 
     function generateCards() {
         cards = [];
-        for (let i = 1; i <= numPairs; i++) {
-            cards.push(i);
-            cards.push(i);
+        for (let i = 0; i < numPairs; i++) {
+            cards.push(emojis[i]);
+            cards.push(emojis[i]);
         }
         shuffle(cards);
+        console.log(`Generated Cards: ${cards}`);
     }
 
     function shuffle(array) {
@@ -41,6 +47,7 @@ $(document).ready(function() {
             const j = Math.floor(Math.random() * (i + 1));
             [array[i], array[j]] = [array[j], array[i]];
         }
+        console.log(`Shuffled Cards: ${array}`);
     }
 
     function displayCards() {
@@ -55,11 +62,13 @@ $(document).ready(function() {
             const card = $('<div></div>').addClass('card hidden').data('value', value).click(cardClickHandler);
             gameBoard.append(card);
         });
+        console.log(`Displayed Cards on Board`);
     }
 
     function cardClickHandler() {
         if ($(this).hasClass('hidden') && (!firstCard || !secondCard)) {
             $(this).removeClass('hidden').text($(this).data('value'));
+            console.log(`Card Clicked: ${$(this).data('value')}`);
 
             if (!firstCard) {
                 firstCard = $(this);
@@ -72,13 +81,18 @@ $(document).ready(function() {
 
     function checkForMatch() {
         if (firstCard.data('value') === secondCard.data('value')) {
-            firstCard.addClass('matched');
-            secondCard.addClass('matched');
+            firstCard.addClass('matched').removeClass('hidden');
+            secondCard.addClass('matched').removeClass('hidden');
             matchedPairs++;
             firstCard = secondCard = null;
+            console.log(`Matched Pairs: ${matchedPairs}`);
             if (matchedPairs === numPairs) {
-                clearInterval(timerInterval);
-                setTimeout(endGame, 500);
+                console.log("All pairs matched");
+                setTimeout(function() {
+                    clearInterval(timerInterval);
+                    console.log("Timer stopped");
+                    endGame();
+                }, 500);
             }
         } else {
             setTimeout(hideCards, 1000);
