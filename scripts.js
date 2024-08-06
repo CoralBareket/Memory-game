@@ -1,6 +1,7 @@
 $(document).ready(function() {
     let playerName, numPairs, cards, firstCard, secondCard, matchedPairs, startTime, timerInterval;
-    const emojis = ['😀', '😄', '😁', '😆', '😅', '😂', '🤣', '😊', '😇', '🙂', '🙃', '😉', '😌', '😍', '🥰', '😘', '😗', '😙', '😚', '😋', '😛', '😝', '😜', '🤪', '🤨', '🧐', '🤓', '😎', '🥳', '🎉', '🚀', '🐱', '🍕', '🏀', '🌈', '🎵']; 
+    const emojis = ['😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣', '😊', '😇', '🙂', '🙃', '😉', '😌', '😍', '🥰', '😘', '😗', '😙', '😚', '😋', '😛', '😝', '😜', '🤪', '🤨', '🧐', '🤓', '😎', '🥳']; // Add more emojis if needed
+
     $('#gameForm').submit(function(event) {
         event.preventDefault();
         playerName = $('#playerName').val();
@@ -15,20 +16,9 @@ $(document).ready(function() {
 
     function adjustPairsToFormRectangle(numPairs) {
         let totalCards = numPairs * 2;
-        let columns = Math.ceil(Math.sqrt(totalCards));
-        let rows = Math.ceil(totalCards / columns);
-        
-        while (columns * rows > totalCards) {
-            if (columns * (rows - 1) >= totalCards) {
-                rows--;
-            } else if ((columns - 1) * rows >= totalCards) {
-                columns--;
-            } else {
-                break;
-            }
-        }
-        
-        return Math.floor((columns * rows) / 2);
+        let closestGridSize = Math.ceil(Math.sqrt(totalCards));
+        let adjustedPairs = closestGridSize * closestGridSize / 2;
+        return Math.floor(adjustedPairs);
     }
 
     function startGame() {
@@ -53,9 +43,9 @@ $(document).ready(function() {
     function generateCards() {
         let selectedEmojis = shuffle(emojis.slice()).slice(0, numPairs); // Shuffle the emojis array and pick the first numPairs elements
         cards = [];
-        selectedEmojis.forEach(emoji => {
-            cards.push(emoji);
-            cards.push(emoji);
+        selectedEmojis.forEach((emoji, index) => {
+            cards.push({ value: emoji, class: `card${index + 1}` });
+            cards.push({ value: emoji, class: `card${index + 1}` });
         });
         shuffle(cards);
         console.log(`Generated Cards: ${cards}`);
@@ -77,9 +67,9 @@ $(document).ready(function() {
         const rows = Math.ceil(totalCards / columns);
         gameBoard.css('grid-template-columns', `repeat(${columns}, 100px)`);
         gameBoard.css('grid-template-rows', `repeat(${rows}, 100px)`);
-        cards.forEach((value, index) => {
-            const card = $('<div></div>').addClass('card hidden').data('value', value).click(cardClickHandler);
-            gameBoard.append(card);
+        cards.forEach(card => {
+            const cardElement = $('<div></div>').addClass(`card hidden ${card.class}`).data('value', card.value).click(cardClickHandler);
+            gameBoard.append(cardElement);
         });
         console.log(`Displayed Cards on Board`);
     }
