@@ -1,7 +1,7 @@
 $(document).ready(function() {
     let playerName, numPairs, cards, firstCard, secondCard, matchedPairs, startTime, timerInterval;
     const emojis = ["😊", "🌈", "⚡", "❄️", "🔥", "🍀", "🍁", "🌹", "🍉", "🍇", "🍊", "🍓", "🍒", "🥑",
-        "🥦", "🍕", "🍔", "🍟", "🍿", "🥤", "🎨", "🎸", "🎮", "🏆", "🎯", "🎲", "🏅", "✈️", "🚀", "⚽", "🌺"];
+        "🥦", "🍕", "🍔", "🍟", "🍿", "🥤", "🎨", "🎸", "🎮", "🎯", "🎲", "🏅", "✈️", "🚀", "⚽", "🌺"];
 
     $('#gameForm').submit(function(event) {
         event.preventDefault();
@@ -25,7 +25,6 @@ $(document).ready(function() {
         timerInterval = setInterval(updateTimer, 1000); // Start a new timer
         generateCards();
         displayCards();
-        $(window).resize(displayCards); // Add event listener for window resizing
     }
 
     function updateTimer() {
@@ -57,10 +56,7 @@ $(document).ready(function() {
         const gameBoard = $('#gameBoard');
         gameBoard.empty();
         const totalCards = cards.length;
-        const containerWidth = Math.min($(window).width(), 1000); // Maximum width of 90% of the viewport width, but not more than 900px
-        const cardWidth = 100; // Width of each card including margin
-        const columns = Math.floor(containerWidth / cardWidth);
-        const rows = Math.ceil(totalCards / columns);
+        const { columns, rows } = calculateGrid(totalCards);
 
         gameBoard.css('grid-template-rows', `repeat(${rows}, 100px)`);
         gameBoard.css('grid-template-columns', `repeat(${columns}, 100px)`);
@@ -69,6 +65,14 @@ $(document).ready(function() {
             gameBoard.append(cardElement);
         });
         console.log(`Displayed Cards on Board`);
+    }
+
+    function calculateGrid(totalCards) {
+        const maxContainerWidth = Math.min($(window).width(), 1000); // Maximum width of the viewport width, but not more than 1000px
+        const cardWidth = 110; // Width of each card including margin
+        const columns = Math.floor(maxContainerWidth / cardWidth);
+        const rows = Math.ceil(totalCards / columns);
+        return { columns, rows };
     }
 
     function cardClickHandler() {
