@@ -1,6 +1,7 @@
 $(document).ready(function() {
     let playerName, numPairs, cards, firstCard, secondCard, matchedPairs, startTime, timerInterval;
-    const emojis = ['😊', '😎', '🐾', '🎁', '🍕', '🚀','🍀', '🌈', '✨', '🏆', '🎧', '💡', '🎨', '⚽', '🌺']; 
+    const emojis = ["😊", "🌈", "⚡", "❄️", "🔥", "🍀", "🍁", "🌹", "🍉", "🍇", "🍊", "🍓", "🍒", "🥑",
+        "🥦", "🍕", "🍔", "🍟", "🍿", "🥤", "🎨", "🎸", "🎮", "🏆", "🎯", "🎲", "🏅", "✈️", "🚀", "⚽", "🌺"];
 
     $('#gameForm').submit(function(event) {
         event.preventDefault();
@@ -10,16 +11,8 @@ $(document).ready(function() {
             alert(`Maximum number of pairs is ${emojis.length}`);
             return;
         }
-        numPairs = adjustPairsToFormRectangle(numPairs); // Adjust the number of pairs
         startGame();
     });
-
-    function adjustPairsToFormRectangle(numPairs) {
-        let totalCards = numPairs * 2;
-        let closestGridSize = Math.ceil(Math.sqrt(totalCards));
-        let adjustedPairs = closestGridSize * closestGridSize / 2;
-        return Math.floor(adjustedPairs);
-    }
 
     function startGame() {
         $('#gameForm').hide();
@@ -32,6 +25,7 @@ $(document).ready(function() {
         timerInterval = setInterval(updateTimer, 1000); // Start a new timer
         generateCards();
         displayCards();
+        $(window).resize(displayCards); // Add event listener for window resizing
     }
 
     function updateTimer() {
@@ -63,10 +57,13 @@ $(document).ready(function() {
         const gameBoard = $('#gameBoard');
         gameBoard.empty();
         const totalCards = cards.length;
-        const columns = Math.ceil(Math.sqrt(totalCards));
+        const containerWidth = Math.min($(window).width(), 1000); // Maximum width of 90% of the viewport width, but not more than 900px
+        const cardWidth = 100; // Width of each card including margin
+        const columns = Math.floor(containerWidth / cardWidth);
         const rows = Math.ceil(totalCards / columns);
-        gameBoard.css('grid-template-columns', `repeat(${columns}, 100px)`);
+
         gameBoard.css('grid-template-rows', `repeat(${rows}, 100px)`);
+        gameBoard.css('grid-template-columns', `repeat(${columns}, 100px)`);
         cards.forEach(card => {
             const cardElement = $('<div></div>').addClass(`card hidden ${card.class}`).data('value', card.value).click(cardClickHandler);
             gameBoard.append(cardElement);
