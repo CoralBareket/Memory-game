@@ -1,6 +1,6 @@
 $(document).ready(function() {
     let playerName, numPairs, cards, firstCard, secondCard, matchedPairs, startTime, timerInterval;
-    const emojis = ['😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣', '😊', '😇', '🙂', '🙃', '😉', '😌', '😍', '🥰', '😘', '😗', '😙', '😚', '😋', '😛', '😝', '😜', '🤪', '🤨', '🧐', '🤓', '😎', '🥳']; // Add more emojis if needed
+    const emojis = ['😊', '😎', '🐾', '🎁', '🍕', '🚀','🍀', '🌈', '✨', '🏆', '🎧', '💡', '🎨', '⚽', '🌺']; 
 
     $('#gameForm').submit(function(event) {
         event.preventDefault();

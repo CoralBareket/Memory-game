@@ -48,3 +48,28 @@
 .card13 { background-color: #7FFF00; } /* Chartreuse */
 .card14 { background-color: #FF7F50; } /* Coral */
 .card15 { background-color: #6495ED; } /* CornflowerBlue */
+
+/* Responsive design */
+@media (min-width: 1200px) {
+    .grid-container {
+        grid-template-columns: repeat(8, 100px);
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    .grid-container {
+        grid-template-columns: repeat(6, 100px);
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .grid-container {
+        grid-template-columns: repeat(4, 100px);
+    }
+}
+
+@media (max-width: 767px) {
+    .grid-container {
+        grid-template-columns: repeat(2, 100px);
+    }
+}
