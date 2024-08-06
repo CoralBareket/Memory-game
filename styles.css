@@ -2,7 +2,6 @@
     display: grid;
     grid-gap: 10px;
     justify-content: center;
-    align-items: center;
 }
 
 .card {
@@ -13,17 +12,39 @@
     align-items: center;
     font-size: 2em;
     cursor: pointer;
-    background-color: #f8f9fa;
     border: 1px solid #ced4da;
     user-select: none;
+    position: relative;
+    color: #ffffff; /* Default text color for emojis */
 }
 
 .card.hidden {
-    background-color: #343a40;
-    color: #343a40;
+    background-color: #343a40; /* Back color */
+}
+
+.card.hidden::before {
+    content: "?";
+    font-size: 2em;
+    color: #ffffff;
+    position: absolute;
 }
 
 .card.matched {
-    background-color: #a6f4b8;
     color: #fff;
 }
+
+.card1 { background-color: #FF6347; }  /* Tomato */
+.card2 { background-color: #FFD700; }  /* Gold */
+.card3 { background-color: #ADFF2F; }  /* GreenYellow */
+.card4 { background-color: #00BFFF; }  /* DeepSkyBlue */
+.card5 { background-color: #FF69B4; }  /* HotPink */
+.card6 { background-color: #BA55D3; }  /* MediumOrchid */
+.card7 { background-color: #00FA9A; }  /* MediumSpringGreen */
+.card8 { background-color: #FF4500; }  /* OrangeRed */
+.card9 { background-color: #4682B4; }  /* SteelBlue */
+.card10 { background-color: #D2691E; } /* Chocolate */
+.card11 { background-color: #DA70D6; } /* Orchid */
+.card12 { background-color: #8A2BE2; } /* BlueViolet */
+.card13 { background-color: #7FFF00; } /* Chartreuse */
+.card14 { background-color: #FF7F50; } /* Coral */
+.card15 { background-color: #6495ED; } /* CornflowerBlue */
