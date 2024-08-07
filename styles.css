@@ -2,8 +2,6 @@
     display: grid;
     grid-gap: 10px;
     justify-content: center;
-    /* max-width: 90vw;  Maximum width 90% of viewport width */
-    /* max-height: 90vh;  Maximum height 90% of viewport height */
     margin: auto;
     overflow: auto;
 }
@@ -23,7 +21,7 @@
 }
 
 .card.hidden {
-    background-color: #343a40; /* Back color */
+    background-color: #343a40;
 }
 
 .card.hidden::before {
