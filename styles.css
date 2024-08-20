@@ -17,11 +17,17 @@
     border: 1px solid #ced4da;
     user-select: none;
     position: relative;
-    color: #ffffff; /* Default text color for emojis */
+    transform-style: preserve-3d; /* Ensures 3D space is preserved */
+    transition: transform 0.6s; /* Smooth flip transition */
 }
 
 .card.hidden {
+    transform: rotateY(0deg); /* Initial state, face-down */
     background-color: #343a40;
+}
+
+.card.flipped {
+    transform: rotateY(180deg); /* Flipped state, face-up */
 }
 
 .card.hidden::before {
@@ -29,8 +35,19 @@
     font-size: 2em;
     color: #ffffff;
     position: absolute;
+    backface-visibility: hidden;
 }
 
 .card.matched {
     color: #fff;
+}
+
+.card.flipped {
+    transform: rotateY(180deg);
+}
+
+.card.flipped::after {
+    content: attr(data-value);
+    color: #ffffff;
+    background-color: #343a40;
 }

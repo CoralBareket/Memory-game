@@ -77,9 +77,10 @@ $(document).ready(function() {
 
     function cardClickHandler() {
         if ($(this).hasClass('hidden') && (!firstCard || !secondCard)) {
-            $(this).removeClass('hidden').text($(this).data('value'));
+            $(this).removeClass('hidden').addClass('flipped');
+            $(this).text($(this).data('value'));  // This line ensures the emoji is displayed
             console.log(`Card Clicked: ${$(this).data('value')}`);
-
+    
             if (!firstCard) {
                 firstCard = $(this);
             } else {
@@ -87,12 +88,12 @@ $(document).ready(function() {
                 checkForMatch();
             }
         }
-    }
+    }    
 
     function checkForMatch() {
         if (firstCard.data('value') === secondCard.data('value')) {
-            firstCard.addClass('matched').removeClass('hidden');
-            secondCard.addClass('matched').removeClass('hidden');
+            firstCard.addClass('matched').removeClass('flipped');
+            secondCard.addClass('matched').removeClass('flipped');
             matchedPairs++;
             firstCard = secondCard = null;
             console.log(`Matched Pairs: ${matchedPairs}`);
@@ -110,8 +111,8 @@ $(document).ready(function() {
     }
 
     function hideCards() {
-        firstCard.addClass('hidden').text('');
-        secondCard.addClass('hidden').text('');
+        firstCard.addClass('hidden').removeClass('flipped').text('');
+        secondCard.addClass('hidden').removeClass('flipped').text('');
         firstCard = secondCard = null;
     }
 
